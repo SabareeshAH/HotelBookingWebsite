@@ -7,20 +7,20 @@ import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
 const Datatable = ({columns}) => {
-  const location=useLocation();
-  const path=location.pathname.split("/")[1];
+  const location = useLocation();
+  const path = location.pathname.split("/")[1];
   const [list, setList] = useState();
-  const {data,loading,error}=useFetch(`/${path}`);
-  useEffect(()=>{
-    setList(data)
-  },[data])
-  const handleDelete = async(id) => {
-    try{
+  const { data, loading, error } = useFetch(`/${path}`);
+
+  useEffect(() => {
+    setList(data);
+  }, [data]);
+
+  const handleDelete = async (id) => {
+    try {
       await axios.delete(`/${path}/${id}`);
       setList(list.filter((item) => item._id !== id));
-    }catch(err){
-
-    }
+    } catch (err) {}
   };
 
   const actionColumn = [
@@ -48,7 +48,7 @@ const Datatable = ({columns}) => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New User
+        {path}
         <Link to={`/${path}/new`} className="link">
           Add New
         </Link>
@@ -60,7 +60,7 @@ const Datatable = ({columns}) => {
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
-        getRowId={row=>row._id}
+        getRowId={(row) => row._id}
       />
     </div>
   );
